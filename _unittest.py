@@ -1,5 +1,5 @@
 import unittest
-from main import predict_label
+from clustering import get_affinities
 
 class TestOutput(unittest.TestCase):
 
@@ -7,7 +7,7 @@ class TestOutput(unittest.TestCase):
         characters = ["蟻", "宕", "曜"]
         
         for char in characters:
-            affinities = predict_label(char)
+            affinities = get_affinities(char)
             print(char, affinities)
 
 
