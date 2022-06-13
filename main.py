@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from clustering import get_affinities
+from affinities_detection import get_affinities
 
 app = FastAPI()
 

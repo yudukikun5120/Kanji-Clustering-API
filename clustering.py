@@ -1,10 +1,14 @@
+"""
+Module Clustering clustering kanji or fitting an estimator
+"""
+
 import numpy as np
 import pandas as pd
-from PIL import Image, ImageFont, ImageDraw
 from sklearn.cluster import KMeans
 import logging
 import progressbar
 import pickle
+from preprocessing import ndarray_of
 
 progressbar.streams.wrap_stderr()
 logging.basicConfig(level=logging.INFO)
@@ -30,19 +34,6 @@ def character_present(code: int) -> bool:
     divisor = 0x100
 
     return code % divisor not in [0xA0, 0xFF]
-
-
-def ndarray_of(character: str) -> np.ndarray:
-    font = 'fonts/NotoSansJP-Regular.otf'
-    size = 64
-    font = ImageFont.truetype(font=font, size=size)
-    xy = (0, 0)
-
-    image = Image.new(mode='RGB', size=(size, size))
-    draw = ImageDraw.Draw(image)
-    draw.text(xy=xy, text=character, font=font)
-
-    return np.array(image)
 
 
 def extract_feature() -> np.ndarray:
@@ -82,19 +73,3 @@ def store_estimator():
 
     with open('estimator/JIS_level-1_kanji_set.pkl', 'wb') as f:
         pickle.dump((estimator, df), f)
-
-
-def get_affinities(character: str) -> np.ndarray:
-    # predicted_image = np.array(io.imread(
-    # "")).reshape(1, -1)
-    with open('estimator/JIS_level-1_kanji_set.pkl', 'rb') as f:
-        estimator, df = pickle.load(f)
-
-    predicted_labels = estimator.predict(
-        ndarray_of(character).reshape(1, -1))
-
-    label = predicted_labels[0]
-
-    affinities = df.loc[df['label'] == label, 'character'].values
-
-    return affinities
