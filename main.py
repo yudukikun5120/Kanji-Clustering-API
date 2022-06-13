@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from mangum import Mangum
 from clustering import get_affinities
 
 app = FastAPI()
@@ -14,6 +13,3 @@ def affinities(character: str):
         "character": character,
         "affinities": affinities,
     }
-
-
-handler = Mangum(app, lifespan="off")
