@@ -4,6 +4,7 @@ from PIL import Image, ImageFont, ImageDraw
 from sklearn.cluster import KMeans
 import logging
 import progressbar
+import pickle
 
 progressbar.streams.wrap_stderr()
 logging.basicConfig(level=logging.INFO)
@@ -76,14 +77,22 @@ def create_fitted_estimator(n_clusters: int = 100) -> (KMeans, pd.DataFrame):
     return estimator, df
 
 
+def store_estimator():
+    estimator, df = create_fitted_estimator()
+
+    with open('estimator/JIS_level-1_kanji_set.pkl', 'wb') as f:
+        pickle.dump((estimator, df), f)
+
+
 def get_affinities(character: str) -> np.ndarray:
     # predicted_image = np.array(io.imread(
     # "")).reshape(1, -1)
-    estimator, df = create_fitted_estimator()
+    with open('estimator/JIS_level-1_kanji_set.pkl', 'rb') as f:
+        estimator, df = pickle.load(f)
 
     predicted_labels = estimator.predict(
         ndarray_of(character).reshape(1, -1))
-    
+
     label = predicted_labels[0]
 
     affinities = df.loc[df['label'] == label, 'character'].values
