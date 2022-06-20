@@ -20,7 +20,6 @@ def kanji_group(set: str) -> list:
     elif set == 'jis_level_2':
         first, end = 0xD0A0, 0xF4A6
 
-
     def character_present(code: int) -> bool:
         divisor = 0x100
 
@@ -41,13 +40,10 @@ def kanji_group(set: str) -> list:
 
 def extract_feature(set: str) -> np.ndarray:
 
-    feature = np.array(
-        [
-            ndarray_of(char)
-            for char in progressbar.progressbar(kanji_group(set))
-        ])
-    
-    return feature.reshape(feature.shape[0], -1)
+    return np.array([
+        ndarray_of(char)
+        for char in progressbar.progressbar(kanji_group(set))
+    ]).reshape(len(kanji_group(set)), -1)
 
 
 def create_fitted_estimator(set: str,
