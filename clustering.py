@@ -15,18 +15,17 @@ logging.basicConfig(level=logging.INFO)
 
 
 def kanji_group(set: str) -> list:
-    def attrs(set: str) -> dict:
-        if set == 'jis_level_1':
-            return {
-                'first': 0xB0A0,
-                'end': 0xCFD3
-            }
+    if set == 'jis_level_1':
+        first, end = 0xB0A0, 0xCFD3
+    elif set == 'jis_level_2':
+        first, end = 0xD0A0, 0xF4A6
+
 
     def character_present(code: int) -> bool:
         divisor = 0x100
 
         return (
-            attrs(set)['first'] <= code <= attrs(set)['end']
+            first <= code <= end
         ) and (
             code % divisor not in [0xA0, 0xFF]
         )
@@ -34,7 +33,7 @@ def kanji_group(set: str) -> list:
     return [
         int.to_bytes(code, byteorder='big', length=2)
         .decode('euc_jisx0213', errors='ignore')
-        for first_in_block in range(0xB0A0, 0xCFA0 + 0x100, 0x100)
+        for first_in_block in range(first, end, 0x100)
         for code in range(first_in_block, first_in_block + 0x10 * 6)
         if character_present(code)
     ]
@@ -42,22 +41,24 @@ def kanji_group(set: str) -> list:
 
 def extract_feature(set: str) -> np.ndarray:
 
-    return np.array(
+    feature = np.array(
         [
             ndarray_of(char)
             for char in progressbar.progressbar(kanji_group(set))
-        ]).reshape(feature.shape[0], -1)
+        ])
+    
+    return feature.reshape(feature.shape[0], -1)
 
 
 def create_fitted_estimator(set: str,
                             n_clusters: int = 100) -> (KMeans,
                                                        pd.DataFrame):
-    logging.info("extracting feature values...")
+    logging.info("extracting feature values for %s...", set)
     feature = extract_feature(set)
 
     logging.info("fitting an estimator with k-means clustering...")
     estimator = KMeans(n_clusters=n_clusters).fit(feature)
-    logging.info("successfully fitted the estimator.")
+    logging.info("successfully fitted the estimator for %s.", set)
 
     labels = pd.Series(estimator.labels_, name='label')
 
@@ -76,5 +77,5 @@ def create_fitted_estimator(set: str,
 def store_estimator(set: str):
     estimator, df = create_fitted_estimator(set)
 
-    with open(f'estimator/{set}_set.pkl', 'wb') as f:
+    with open(f'estimator/{set}.pkl', 'wb') as f:
         pickle.dump((estimator, df), f)

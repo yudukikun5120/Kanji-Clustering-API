@@ -7,10 +7,10 @@ import pickle
 from preprocessing import ndarray_of
 
 
-def get_affinities(character: str) -> np.ndarray:
+def get_affinities(character: str, set: str) -> np.ndarray:
     # predicted_image = np.array(io.imread(
     # "")).reshape(1, -1)
-    with open('estimator/JIS_level-1_kanji_set.pkl', 'rb') as f:
+    with open(f'estimator/{set}.pkl', 'rb') as f:
         estimator, df = pickle.load(f)
 
     predicted_labels = estimator.predict(

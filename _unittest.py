@@ -1,5 +1,5 @@
 import unittest
-from clustering import kanji_group
+from clustering import *
 from affinities_detection import *
 
 
@@ -10,15 +10,21 @@ class TestOutput(unittest.TestCase):
 
 
     def test_store_estimator(self):
-        store_estimator()
+        store_estimator('jis_level_1')
+        store_estimator('jis_level_2')
 
 
     def test_affinities(self):
-        characters = ["蟻", "宕", "曜"]
+        characters = ["蟻", "宕", "曜", "鮎"]
 
         for char in characters:
-            affinities = get_affinities(char)
-            print(char, affinities)
+            jis_1_affinities = get_affinities(char, 'jis_level_1')
+            jis_2_affinities = get_affinities(char, 'jis_level_2')
+            print(char, 
+            'JIS第１水準：', jis_1_affinities, 
+            'JIS第２水準：', jis_2_affinities,
+            sep="\n"
+            )
 
 
 if __name__ == '__main__':

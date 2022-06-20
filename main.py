@@ -4,9 +4,9 @@ from affinities_detection import get_affinities
 app = FastAPI()
 
 
-@app.get("/affinities")
-def affinities(character: str):
-    affinities = get_affinities(character)
+@app.get("/affinities/{set}")
+def affinities(character: str, set: str):
+    affinities = get_affinities(character, set)
     affinities = list(affinities)
 
     return {
