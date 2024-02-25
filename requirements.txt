@@ -19,7 +19,7 @@ imageio==2.19.3
 isort==5.10.1
 itsdangerous==1.1.0
 jedi==0.17.2
-Jinja2==2.11.2
+Jinja2==3.1.3
 joblib==1.2.0
 lazy-object-proxy==1.7.1
 mangum==0.15.0
@@ -33,7 +33,7 @@ oauthlib==3.1.0
 packaging==21.3
 pandas==1.4.2
 parso==0.7.1
-Pillow==9.1.1
+Pillow==10.2.0
 platformdirs==2.5.2
 pluggy==1.0.0
 progressbar2==4.0.0
@@ -70,8 +70,8 @@ tifffile==2022.5.4
 toml==0.10.2
 tomli==2.0.1
 typing_extensions==4.2.0
-ujson==5.3.0
-urllib3==1.26.18
+ujson==5.4.0
+urllib3==2.2.1
 uvicorn==0.17.6
 Werkzeug==2.3.8
 wrapt==1.14.1
