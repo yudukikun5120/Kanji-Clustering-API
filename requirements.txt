@@ -5,11 +5,11 @@ autopep8==1.6.0
 certifi==2024.7.4
 cffi==1.15.0
 chardet==3.0.4
-click==7.1.2
+click==8.1.3
 Deprecated==1.2.13
 deta==1.1.0
 dill==0.3.5.1
-fastapi==0.109.1
+fastapi==0.115.0
 flake8==4.0.1
 Flask==3.0.2
 gunicorn==22.0.0
@@ -17,18 +17,18 @@ h11==0.13.0
 idna==3.7
 imageio==2.19.3
 isort==5.10.1
-itsdangerous==1.1.0
+itsdangerous==2.1.2
 jedi==0.17.2
 Jinja2==3.1.3
 joblib==1.2.0
 lazy-object-proxy==1.7.1
 mangum==0.15.0
-MarkupSafe==1.1.1
+MarkupSafe==2.1.1
 mccabe==0.6.1
 mypy==0.960
 mypy-extensions==0.4.3
 networkx==2.8.3
-numpy==1.22.3
+numpy >1.22.3
 oauthlib==3.1.0
 packaging==21.3
 pandas==1.4.2
@@ -54,22 +54,22 @@ python-lsp-jsonrpc==1.0.0
 python-lsp-server==1.4.1
 python-utils==3.2.3
 pytz==2022.1
-PyWavelets==1.3.0
+PyWavelets==1.7.0
 requests==2.32.0
 requests-oauthlib==1.3.0
 rope==1.1.1
-scikit-image==0.19.2
-scikit-learn==1.1.1
-scipy==1.10.1
+scikit-image >0.19.2
+scikit-learn >1.1.1
+scipy==1.14.1
 six==1.16.0
 sniffio==1.2.0
 snowballstemmer==2.2.0
-starlette==0.37.1
+starlette==0.38.0
 threadpoolctl==3.1.0
 tifffile==2022.5.4
 toml==0.10.2
 tomli==2.0.1
-typing_extensions==4.2.0
+typing_extensions==4.8.0
 ujson==5.9.0
 urllib3==2.2.2
 uvicorn==0.17.6
