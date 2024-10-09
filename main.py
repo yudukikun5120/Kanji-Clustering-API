@@ -6,22 +6,20 @@ app = FastAPI()
 
 
 @app.get("/affinities")
-def affinities(character: str, sets: str = 'jis_level_1'):
+def affinities(character: str, sets: str = "jis_level_1"):
     """
     You can get affinities corresponding to your input character.
-    
-    \<sets\>::= jis_level_1 | jis_level_2 | \<sets\> \<sets\>
+
+    \r<sets\r>::= jis_level_1 | jis_level_2 | \r<sets\r> \r<sets\r>
     """
 
-    affinities = [
-        affinity
-        for set in sets.split()
-        for affinity in get_affinities(character, set)
-        ]
+    affinities_ = [
+        affinity for set in sets.split() for affinity in get_affinities(character, set)
+    ]
 
     return {
         "character": character,
-        "affinities": affinities,
+        "affinities": affinities_,
     }
 
 
