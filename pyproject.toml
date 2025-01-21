@@ -26,7 +26,7 @@ dependencies = [
     "isort==5.10.1",
     "itsdangerous==2.1.2",
     "jedi==0.17.2",
-    "jinja2==3.1.4",
+    "jinja2==3.1.5",
     "joblib==1.2.0",
     "lazy-object-proxy==1.7.1",
     "mangum==0.15.0",
