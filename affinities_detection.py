@@ -1,22 +1,33 @@
-"""
-Module AffinitiesDetection detect affinities of given kanji character
-"""
+"""Module AffinitiesDetection detect affinities of given kanji character."""
+
+import pickle
+from pathlib import Path
 
 import numpy as np
-import pickle
+from numpy.typing import NDArray
+
+from kanji_types import KanjiSet
 from preprocessing import ndarray_of
 
 
-def get_affinities(character: str, set: str) -> np.ndarray:
-    # predicted_image = np.array(io.imread(
-    # "")).reshape(1, -1)
-    with open(f"estimator/{set}.pkl", "rb") as f:
-        estimator, df = pickle.load(f)
+def get_affinities(character: str, kanji_set: KanjiSet) -> NDArray[np.str_]:
+    """Get characters with similar visual features to the input character.
+
+    Args:
+        character: The kanji character to find affinities for.
+        kanji_set: The kanji set to use ('jis_level_1' or 'jis_level_2').
+
+    Returns:
+        Array of kanji characters that are visually similar.
+
+    """
+    with Path(f"estimator/{kanji_set}.pkl").open("rb") as f:
+        estimator, df = pickle.load(f)  # noqa: S301
 
     predicted_labels = estimator.predict(ndarray_of(character).reshape(1, -1))
 
     label = predicted_labels[0]
 
-    affinities = df.loc[df["label"] == label, "character"].values
+    affinities: NDArray[np.str_] = df.loc[df["label"] == label, "character"].values
 
     return affinities

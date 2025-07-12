@@ -1,12 +1,19 @@
-"""
-Module Preprocessing providing functions which need in preprocessing
-"""
+"""Module Preprocessing providing functions which need in preprocessing."""
 
 import numpy as np
-from PIL import Image, ImageFont, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 
 def ndarray_of(character: str) -> np.ndarray:
+    """Convert a character to a numpy array representation of its image.
+
+    Args:
+        character: The character to render as an image.
+
+    Returns:
+        Numpy array representation of the character image.
+
+    """
     font = "fonts/NotoSansJP-Regular.otf"
     size = 64
     font = ImageFont.truetype(font=font, size=size)
