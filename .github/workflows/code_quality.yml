@@ -24,14 +24,14 @@ jobs:
         enable-cache: true
         cache-suffix: lint
       
-    - name: Install dependencies
-      run: uv sync --only-group lint
+    - name: Install ruff only
+      run: uv tool install ruff
       
     - name: Run Ruff linter
-      run: uv run ruff check .
+      run: ruff check .
       
     - name: Run Ruff formatter
-      run: uv run ruff format --check .
+      run: ruff format --check .
 
   mypy:
     runs-on: ubuntu-latest
@@ -50,11 +50,11 @@ jobs:
         enable-cache: true
         cache-suffix: lint
       
-    - name: Install dependencies
-      run: uv sync --only-group lint
+    - name: Install mypy only
+      run: uv tool install mypy
       
     - name: Run mypy
-      run: uv run mypy .
+      run: mypy .
 
   pytest:
     runs-on: ubuntu-latest
