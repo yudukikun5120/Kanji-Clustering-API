@@ -7,8 +7,8 @@
 本アプリケーションはHerokuにデプロイされています。
 
 - **アプリ名**: kanji-clustering
-- **URL**: https://kanji-clustering.herokuapp.com
-- **管理者**: yudukikun5120@gmail.com
+- **URL**: <https://kanji-clustering.herokuapp.com>
+- **管理者**: <yudukikun5120@gmail.com>
 
 ### API エンドポイント
 
@@ -17,11 +17,13 @@
 ### Herokuコマンド
 
 ログ確認:
+
 ```bash
 heroku logs --tail --app kanji-clustering
 ```
 
 アプリ一覧:
+
 ```bash
 heroku apps
 ```
