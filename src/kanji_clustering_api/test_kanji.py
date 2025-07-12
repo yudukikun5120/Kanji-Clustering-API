@@ -21,9 +21,9 @@ def test_kanji_jis_daiichisuijun() -> None:
         raise AssertionError(msg)
 
 
-@patch("clustering.Path")
-@patch("clustering.pickle.dump")
-@patch("clustering.create_fitted_estimator")
+@patch("kanji_clustering_api.clustering.Path")
+@patch("kanji_clustering_api.clustering.pickle.dump")
+@patch("kanji_clustering_api.clustering.create_fitted_estimator")
 def test_store_estimator(
     mock_create_fitted_estimator: MagicMock,
     mock_pickle_dump: MagicMock,
@@ -48,9 +48,9 @@ def test_store_estimator(
     mock_pickle_dump.assert_called_once()
 
 
-@patch("affinities_detection.Path")
-@patch("affinities_detection.pickle.load")
-@patch("affinities_detection.ndarray_of")
+@patch("kanji_clustering_api.affinities_detection.Path")
+@patch("kanji_clustering_api.affinities_detection.pickle.load")
+@patch("kanji_clustering_api.affinities_detection.ndarray_of")
 def test_affinities(
     mock_ndarray_of: MagicMock,
     mock_pickle_load: MagicMock,

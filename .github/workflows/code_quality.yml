@@ -54,7 +54,7 @@ jobs:
       run: uv tool install mypy
       
     - name: Run mypy
-      run: uv run mypy .
+      run: uv run mypy src/kanji_clustering_api
 
   pytest:
     runs-on: ubuntu-latest
