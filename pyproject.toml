@@ -33,7 +33,7 @@ dependencies = [
     "markupsafe==2.1.1",
     "mccabe==0.6.1",
     "mypy-extensions==0.4.3",
-    "mypy==0.960",
+    "mypy>=1.0.0",
     "networkx==2.8.3",
     "numpy>1.22.3",
     "oauthlib==3.1.0",
@@ -71,7 +71,7 @@ dependencies = [
     "six==1.16.0",
     "sniffio==1.2.0",
     "snowballstemmer==2.2.0",
-    "starlette==0.40.0",
+    "starlette==0.38.6",
     "threadpoolctl==3.1.0",
     "tifffile==2022.5.4",
     "toml==0.10.2",
@@ -86,5 +86,33 @@ dependencies = [
     "yapf==0.32.0",
 ]
 
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.4.4",
+    "types-requests",
+    "pandas-stubs",
+]
+
 [tool.uv.sources]
 pyls-mypy = { git = "https://github.com/tomv564/pyls-mypy.git", rev = "3b105b491a42eec304f19e6ed6da1053d12958c6" }
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D203",  # blank line before class docstring (conflicts with D211)
+    "D213",  # multi-line summary should start at second line (conflicts with D212)
+]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "progressbar",
+    "sklearn.cluster",
+    "uvicorn",
+]
+ignore_missing_imports = true
