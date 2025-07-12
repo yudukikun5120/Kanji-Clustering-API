@@ -5,10 +5,10 @@ from typing import TYPE_CHECKING, cast
 import uvicorn
 from fastapi import FastAPI
 
-from affinities_detection import get_affinities
+from .affinities_detection import get_affinities
 
 if TYPE_CHECKING:
-    from kanji_types import KanjiSet
+    from .kanji_types import KanjiSet
 
 app = FastAPI()
 

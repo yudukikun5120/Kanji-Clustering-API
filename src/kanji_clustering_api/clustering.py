@@ -9,8 +9,8 @@ import pandas as pd
 import progressbar
 from sklearn.cluster import KMeans
 
-from kanji_types import KanjiSet
-from preprocessing import ndarray_of
+from .kanji_types import KanjiSet
+from .preprocessing import ndarray_of
 
 progressbar.streams.wrap_stderr()
 logging.basicConfig(level=logging.INFO)

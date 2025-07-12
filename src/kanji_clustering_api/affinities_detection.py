@@ -6,8 +6,8 @@ from pathlib import Path
 import numpy as np
 from numpy.typing import NDArray
 
-from kanji_types import KanjiSet
-from preprocessing import ndarray_of
+from .kanji_types import KanjiSet
+from .preprocessing import ndarray_of
 
 
 def get_affinities(character: str, kanji_set: KanjiSet) -> NDArray[np.str_]:

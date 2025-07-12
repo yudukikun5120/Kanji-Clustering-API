@@ -5,8 +5,8 @@ from unittest.mock import MagicMock, mock_open, patch
 import numpy as np
 import pandas as pd
 
-from affinities_detection import get_affinities
-from clustering import kanji_group, store_estimator
+from .affinities_detection import get_affinities
+from .clustering import kanji_group, store_estimator
 
 # Constants for expected values
 JIS_LEVEL_1_COUNT = 2965
