@@ -50,7 +50,7 @@ dependencies = [
     "progressbar2==4.0.0",
     "pycodestyle==2.8.0",
     "pycparser==2.21",
-    "pydantic==1.10.13",
+    "pydantic>=2.0.0",
     "pydocstyle==6.1.1",
     "pyflakes==2.4.0",
     "pyjwt==2.4.0",
