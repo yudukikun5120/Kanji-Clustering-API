@@ -51,7 +51,6 @@ dependencies = [
     "pyflakes==2.4.0",
     "pyjwt==2.4.0",
     "pylint==2.13.9",
-    "pyls-mypy",
     "pynacl==1.5.0",
     "pyparsing==3.0.9",
     "python-dateutil==2.8.2",
@@ -93,8 +92,6 @@ dev-dependencies = [
     "pandas-stubs",
 ]
 
-[tool.uv.sources]
-pyls-mypy = { git = "https://github.com/tomv564/pyls-mypy.git", rev = "3b105b491a42eec304f19e6ed6da1053d12958c6" }
 
 [tool.ruff.lint]
 select = ["ALL"]

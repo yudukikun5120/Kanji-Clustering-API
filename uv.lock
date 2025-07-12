@@ -359,7 +359,6 @@ dependencies = [
     { name = "pyflakes" },
     { name = "pyjwt" },
     { name = "pylint" },
-    { name = "pyls-mypy" },
     { name = "pynacl" },
     { name = "pyparsing" },
     { name = "python-dateutil" },
@@ -449,7 +448,6 @@ requires-dist = [
     { name = "pyflakes", specifier = "==2.4.0" },
     { name = "pyjwt", specifier = "==2.4.0" },
     { name = "pylint", specifier = "==2.13.9" },
-    { name = "pyls-mypy", git = "https://github.com/tomv564/pyls-mypy.git?rev=3b105b491a42eec304f19e6ed6da1053d12958c6" },
     { name = "pynacl", specifier = "==1.5.0" },
     { name = "pyparsing", specifier = "==3.0.9" },
     { name = "python-dateutil", specifier = "==2.8.2" },
@@ -761,15 +759,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a6/7c/ad5925aa1163b647ad10e81044288c93ef4317c96cd0a3d2b0f0b8059bd7/pylint-2.13.9.tar.gz", hash = "sha256:095567c96e19e6f57b5b907e67d265ff535e588fe26b12b5ebe1fc5645b2c731", size = 360270 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/03/09/7b710f4aab53e3ccc0d9596557bf020c5ad06312e54ec1b60402ec9d694f/pylint-2.13.9-py3-none-any.whl", hash = "sha256:705c620d388035bdd9ff8b44c5bcdd235bfb49d276d488dd2c8ff1736aa42526", size = 438476 },
-]
-
-[[package]]
-name = "pyls-mypy"
-version = "0.1.8+6.g3b105b4"
-source = { git = "https://github.com/tomv564/pyls-mypy.git?rev=3b105b491a42eec304f19e6ed6da1053d12958c6#3b105b491a42eec304f19e6ed6da1053d12958c6" }
-dependencies = [
-    { name = "mypy" },
-    { name = "python-language-server" },
 ]
 
 [[package]]
