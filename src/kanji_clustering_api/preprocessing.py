@@ -14,9 +14,9 @@ def ndarray_of(character: str) -> np.ndarray:
         Numpy array representation of the character image.
 
     """
-    font = "fonts/NotoSansJP-Regular.otf"
+    font_path = "fonts/NotoSansJP-Regular.otf"
     size = 64
-    font = ImageFont.truetype(font=font, size=size)
+    font = ImageFont.truetype(font=font_path, size=size)
     xy = (0, 0)
 
     image = Image.new(mode="RGB", size=(size, size))
