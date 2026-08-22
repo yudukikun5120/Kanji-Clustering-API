@@ -1,3 +1,5 @@
+# Copyright (c) 2026 yudukikun5120
+
 """FastAPI application for Kanji clustering and affinity detection."""
 
 from typing import TYPE_CHECKING, cast

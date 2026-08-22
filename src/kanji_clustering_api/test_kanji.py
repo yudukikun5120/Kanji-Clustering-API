@@ -1,3 +1,5 @@
+# Copyright (c) 2026 yudukikun5120
+
 """Unit tests for Kanji clustering API."""
 
 from unittest.mock import MagicMock, mock_open, patch

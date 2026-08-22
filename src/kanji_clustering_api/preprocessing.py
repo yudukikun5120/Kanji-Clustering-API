@@ -1,3 +1,5 @@
+# Copyright (c) 2026 yudukikun5120
+
 """Module Preprocessing providing functions which need in preprocessing."""
 
 import numpy as np
