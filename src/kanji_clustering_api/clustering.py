@@ -1,3 +1,5 @@
+# Copyright (c) 2026 yudukikun5120
+
 """Module Clustering clustering kanji or fitting an estimator."""
 
 import logging

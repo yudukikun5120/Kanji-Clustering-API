@@ -1,3 +1,5 @@
+# Copyright (c) 2026 yudukikun5120
+
 """Module AffinitiesDetection detect affinities of given kanji character."""
 
 import pickle
