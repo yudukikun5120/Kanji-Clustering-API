@@ -19,7 +19,7 @@ app = FastAPI()
 def affinities(
     character: str,
     sets: str = "jis_level_1",
-) -> dict[str, str | list[float]]:
+) -> dict[str, str | list[str]]:
     r"""You can get affinities corresponding to your input character.
 
     \r<sets\r>::= jis_level_1 | jis_level_2 | \r<sets\r> \r<sets\r>
