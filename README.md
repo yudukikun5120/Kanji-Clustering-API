@@ -27,3 +27,9 @@ heroku logs --tail --app kanji-clustering
 ```bash
 heroku apps
 ```
+
+## Test coverage
+
+Run `uv run coverage run -m pytest`, then `uv run coverage report`, `uv run coverage html`, or `uv run coverage xml`. Coverage includes unexecuted production Python files and branches; tests are excluded. CI retains HTML and XML reports in the `coverage` artifact for 14 days. No minimum coverage threshold is enforced yet.
+
+CI uploads `coverage/coverage.xml` to Codecov using GitHub Actions OIDC (no stored upload token). Install the Codecov GitHub App for this repository first. Coverage status checks are informational; upload errors fail the CI job so a missing report is visible.
