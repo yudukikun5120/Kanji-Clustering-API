@@ -57,6 +57,9 @@ jobs:
       run: uv run --group lint mypy src/kanji_clustering_api
 
   pytest:
+    permissions:
+      contents: read
+      id-token: write
     runs-on: ubuntu-latest
     
     steps:
@@ -93,3 +96,12 @@ jobs:
         path: coverage/
         retention-days: 14
         if-no-files-found: error
+    - name: Upload coverage to Codecov
+      if: ${{ !cancelled() && hashFiles('coverage/coverage.xml') != '' }}
+      uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7
+      with:
+        files: coverage/coverage.xml
+        disable_search: true
+        disable_telem: true
+        use_oidc: true
+        fail_ci_if_error: true
