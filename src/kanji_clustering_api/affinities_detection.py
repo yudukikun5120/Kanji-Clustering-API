@@ -2,12 +2,10 @@
 
 """Module AffinitiesDetection detect affinities of given kanji character."""
 
-import pickle
-from pathlib import Path
-
 import numpy as np
 from numpy.typing import NDArray
 
+from .estimator_store import load_estimator
 from .kanji_types import KanjiSet
 from .preprocessing import ndarray_of
 
@@ -23,8 +21,7 @@ def get_affinities(character: str, kanji_set: KanjiSet) -> NDArray[np.str_]:
         Array of kanji characters that are visually similar.
 
     """
-    with Path(f"estimator/{kanji_set}.pkl").open("rb") as f:
-        estimator, df = pickle.load(f)  # noqa: S301
+    estimator, df = load_estimator(kanji_set)
 
     predicted_labels = estimator.predict(ndarray_of(character).reshape(1, -1))
 
