@@ -14,7 +14,7 @@ import pytest
 from .affinities_detection import get_affinities
 from .clustering import kanji_group, store_estimator
 from .estimator_store import EstimatorIntegrityError, load_estimator
-from .main import affinities
+from .main import affinities, app
 
 # Constants for expected values
 JIS_LEVEL_1_COUNT = 2965
@@ -146,3 +146,16 @@ def test_load_estimator_rejects_tampered_file(
     (estimator_dir / "unpinned.pkl").write_bytes(good)
     with pytest.raises(EstimatorIntegrityError):
         load_estimator("unpinned")
+
+
+def test_affinities_character_limited_to_one_code_point() -> None:
+    """`character` must be declared as exactly one code point.
+
+    The feature extractor renders it onto a fixed 64x64 canvas, so a longer
+    string (or a newline-separated one) only adds rendering work.
+    """
+    parameters = app.openapi()["paths"]["/affinities"]["get"]["parameters"]
+    character = next(p for p in parameters if p["name"] == "character")
+
+    assert character["schema"]["minLength"] == 1  # noqa: S101
+    assert character["schema"]["maxLength"] == 1  # noqa: S101
