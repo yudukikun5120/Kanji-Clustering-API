@@ -9,6 +9,7 @@ import pandas as pd
 
 from .affinities_detection import get_affinities
 from .clustering import kanji_group, store_estimator
+from .main import affinities
 
 # Constants for expected values
 JIS_LEVEL_1_COUNT = 2965
@@ -96,3 +97,21 @@ def test_affinities(
     if "蜘" not in result:
         msg = "Expected '蜘' in result"
         raise AssertionError(msg)
+
+
+@patch("kanji_clustering_api.main.get_affinities")
+def test_affinities_endpoint_deduplicates_repeated_sets(
+    mock_get_affinities: MagicMock,
+) -> None:
+    """Repeating a set name in `sets` must not call get_affinities repeatedly.
+
+    Regression test: a client could previously repeat "jis_level_1" up to
+    ~1,358 times within a single HTTP request (bounded by h11's 16 KiB
+    request-line/header limit) and force an uncached pickle load plus model
+    inference for each repetition, multiplying the cost of one request.
+    """
+    mock_get_affinities.return_value = np.array(["蟻"])
+
+    affinities(character="蟻", sets="jis_level_1 jis_level_1 jis_level_1")
+
+    mock_get_affinities.assert_called_once_with("蟻", "jis_level_1")

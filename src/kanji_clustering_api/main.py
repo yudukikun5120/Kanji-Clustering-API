@@ -24,11 +24,15 @@ def affinities(
 
     \r<sets\r>::= jis_level_1 | jis_level_2 | \r<sets\r> \r<sets\r>
     """
-    valid_kanji_sets = [
+    # dict.fromkeys deduplicates while preserving order. Without this, a
+    # client can repeat the same set name many times in one request and
+    # force get_affinities (an uncached pickle load + model inference) to
+    # run once per repetition, multiplying the cost of a single request.
+    valid_kanji_sets = dict.fromkeys(
         kanji_set_str
         for kanji_set_str in sets.split()
         if kanji_set_str in {"jis_level_1", "jis_level_2"}
-    ]
+    )
 
     affinities_ = [
         affinity
