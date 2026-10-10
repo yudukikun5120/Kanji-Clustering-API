@@ -2,10 +2,10 @@
 
 """FastAPI application for Kanji clustering and affinity detection."""
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Annotated, cast
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 
 from .affinities_detection import get_affinities
 
@@ -17,7 +17,7 @@ app = FastAPI()
 
 @app.get("/affinities")
 def affinities(
-    character: str,
+    character: Annotated[str, Query(min_length=1, max_length=1)],
     sets: str = "jis_level_1",
 ) -> dict[str, str | list[str]]:
     r"""You can get affinities corresponding to your input character.
