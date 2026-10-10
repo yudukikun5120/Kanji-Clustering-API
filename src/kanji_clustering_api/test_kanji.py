@@ -2,13 +2,18 @@
 
 """Unit tests for Kanji clustering API."""
 
-from unittest.mock import MagicMock, mock_open, patch
+import hashlib
+import pickle
+from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from .affinities_detection import get_affinities
 from .clustering import kanji_group, store_estimator
+from .estimator_store import EstimatorIntegrityError, load_estimator
 from .main import affinities
 
 # Constants for expected values
@@ -24,13 +29,11 @@ def test_kanji_jis_daiichisuijun() -> None:
         raise AssertionError(msg)
 
 
-@patch("kanji_clustering_api.clustering.Path")
-@patch("kanji_clustering_api.clustering.pickle.dump")
+@patch("kanji_clustering_api.clustering.store_estimator_file")
 @patch("kanji_clustering_api.clustering.create_fitted_estimator")
 def test_store_estimator(
     mock_create_fitted_estimator: MagicMock,
-    mock_pickle_dump: MagicMock,
-    mock_path: MagicMock,
+    mock_store_file: MagicMock,
 ) -> None:
     """Test that estimators can be created and stored for both JIS levels."""
     # Mock the create_fitted_estimator to return dummy data
@@ -38,26 +41,19 @@ def test_store_estimator(
     mock_df = pd.DataFrame({"character": ["あ", "い"], "label": [0, 1]})
     mock_create_fitted_estimator.return_value = (mock_estimator, mock_df)
 
-    # Mock the file opening
-    mock_file = mock_open()
-    mock_path.return_value.open.return_value.__enter__ = mock_file
-    mock_path.return_value.open.return_value.__exit__ = MagicMock()
-
     # Test storing estimator
     store_estimator("jis_level_1")
 
     # Verify the function was called
     mock_create_fitted_estimator.assert_called_once_with("jis_level_1")
-    mock_pickle_dump.assert_called_once()
+    mock_store_file.assert_called_once()
 
 
-@patch("kanji_clustering_api.affinities_detection.Path")
-@patch("kanji_clustering_api.affinities_detection.pickle.load")
+@patch("kanji_clustering_api.affinities_detection.load_estimator")
 @patch("kanji_clustering_api.affinities_detection.ndarray_of")
 def test_affinities(
     mock_ndarray_of: MagicMock,
-    mock_pickle_load: MagicMock,
-    mock_path: MagicMock,
+    mock_load_estimator: MagicMock,
 ) -> None:
     """Test that affinities can be retrieved for sample characters."""
     # Mock the estimator and dataframe
@@ -72,14 +68,10 @@ def test_affinities(
         },
     )
 
-    mock_pickle_load.return_value = (mock_estimator, mock_df)
+    mock_load_estimator.return_value = (mock_estimator, mock_df)
 
     # Mock ndarray_of to return a dummy array
     mock_ndarray_of.return_value = np.zeros((64, 64, 3))
-
-    # Mock file opening
-    mock_file = mock_open()
-    mock_path.return_value.open.return_value = mock_file()
 
     # Test getting affinities
     result = get_affinities("蟻", "jis_level_1")
@@ -115,3 +107,42 @@ def test_affinities_endpoint_deduplicates_repeated_sets(
     affinities(character="蟻", sets="jis_level_1 jis_level_1 jis_level_1")
 
     mock_get_affinities.assert_called_once_with("蟻", "jis_level_1")
+
+
+def test_load_estimator_accepts_pinned_files() -> None:
+    """The committed estimator files must match the committed manifest."""
+    for kanji_set in ("jis_level_1", "jis_level_2"):
+        estimator, df = load_estimator(kanji_set)
+        assert hasattr(estimator, "predict")  # noqa: S101
+        assert {"character", "label"} <= set(df.columns)  # noqa: S101
+
+
+def test_load_estimator_rejects_tampered_file(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A swapped pickle (even a valid one) must never be deserialized."""
+    estimator_dir = tmp_path / "estimator"
+    estimator_dir.mkdir()
+    good = pickle.dumps(("estimator", "df"))
+    (estimator_dir / "x.pkl").write_bytes(good)
+    (estimator_dir / "SHA256SUMS").write_text(
+        f"{hashlib.sha256(good).hexdigest()}  x.pkl\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        "kanji_clustering_api.estimator_store.ESTIMATOR_DIR",
+        estimator_dir,
+    )
+    monkeypatch.setattr(
+        "kanji_clustering_api.estimator_store.MANIFEST_PATH",
+        estimator_dir / "SHA256SUMS",
+    )
+    assert load_estimator("x") == ("estimator", "df")  # noqa: S101
+
+    (estimator_dir / "x.pkl").write_bytes(pickle.dumps(("evil", "df")))
+    with pytest.raises(EstimatorIntegrityError):
+        load_estimator("x")
+    (estimator_dir / "unpinned.pkl").write_bytes(good)
+    with pytest.raises(EstimatorIntegrityError):
+        load_estimator("unpinned")

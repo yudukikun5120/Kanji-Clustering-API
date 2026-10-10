@@ -3,14 +3,13 @@
 """Module Clustering clustering kanji or fitting an estimator."""
 
 import logging
-import pickle
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import progressbar
 from sklearn.cluster import KMeans
 
+from .estimator_store import store_estimator_file
 from .kanji_types import KanjiSet
 from .preprocessing import ndarray_of
 
@@ -114,5 +113,4 @@ def store_estimator(kanji_set: KanjiSet) -> None:
     """
     estimator, df = create_fitted_estimator(kanji_set)
 
-    with Path(f"estimator/{kanji_set}.pkl").open("wb") as f:
-        pickle.dump((estimator, df), f)
+    store_estimator_file(kanji_set, (estimator, df))
