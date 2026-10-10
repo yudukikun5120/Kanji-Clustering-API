@@ -27,3 +27,7 @@ heroku logs --tail --app kanji-clustering
 ```bash
 heroku apps
 ```
+
+## Test coverage
+
+Run `uv run coverage run -m pytest`, then `uv run coverage report`, `uv run coverage html`, or `uv run coverage xml`. Coverage includes unexecuted production Python files and branches; tests are excluded. CI retains HTML and XML reports in the `coverage` artifact for 14 days. No minimum coverage threshold is enforced yet.

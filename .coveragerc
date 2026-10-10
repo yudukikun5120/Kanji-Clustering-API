@@ -1,0 +1,16 @@
+[run]
+branch = True
+relative_files = True
+source =
+    src/kanji_clustering_api
+omit =
+    */test_*.py
+
+[report]
+show_missing = True
+
+[html]
+directory = coverage/html
+
+[xml]
+output = coverage/coverage.xml

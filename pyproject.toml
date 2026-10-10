@@ -23,6 +23,7 @@ dev = [
     "pytest>=7.4.4",
     "types-requests",
     "pandas-stubs",
+    "coverage>=7.16,<8",
 ]
 lint = [
     "ruff>=0.8.0",

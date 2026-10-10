@@ -182,3 +182,8 @@ pip-selfcheck.json
 .chalice/venv/
 
 .DS_Store
+
+# Generated coverage reports
+.coverage
+.coverage.*
+coverage/
